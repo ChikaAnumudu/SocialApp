@@ -11,7 +11,7 @@ export default function BottonTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        screenStyle: {backgroundColor: 'white'},
+        screenStyle: { backgroundColor: "white" },
         tabBarStyle: { backgroundColor: "black" },
       }}
     >
@@ -36,10 +36,12 @@ export default function BottonTabs() {
             focused ? (
               <Image
                 source={require("../assets/Images/categories-selected.png")}
+                style={{ marginRight: 40 }}
               />
             ) : (
               <Image
                 source={require("../assets/Images/categories-unselected.png")}
+                style={{ marginRight: 40 }}
               />
             ),
           tabBarShowLabel: false,
@@ -53,10 +55,12 @@ export default function BottonTabs() {
             focused ? (
               <Image
                 source={require("../assets/Images/notifications-selected.png")}
+                style={{ marginLeft: 40 }}
               />
             ) : (
               <Image
                 source={require("../assets/Images/notifications-unselected.png")}
+                style={{ marginLeft: 40 }}
               />
             ),
           tabBarShowLabel: false,
