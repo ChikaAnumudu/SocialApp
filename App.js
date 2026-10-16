@@ -6,11 +6,9 @@ import BottonTabs from './components/BottonTabs';
 
 
 export default function App() {
-  const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
       <BottonTabs />
-
       <StatusBar style="auto" />
     </NavigationContainer>
   );
