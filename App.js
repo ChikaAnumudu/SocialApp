@@ -1,12 +1,18 @@
+import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import BottonTabs from './components/BottonTabs';
+
 
 export default function App() {
+  const Tab = createBottomTabNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <NavigationContainer>
+      <BottonTabs />
+
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
