@@ -1,6 +1,22 @@
 import { View, Text } from "react-native";
 
 export default function HomeScreen() {
+    const FolFriendBlock = ({text1, text2}) => {
+        return (<View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 22, fontWeight: 400, color: "#242424" }}>
+            {text1}
+          </Text>
+          <Text style={{ fontSize: 22, fontWeight: 400, color: "#bdbdbd" }}>
+            {text2}
+          </Text>
+        </View>
+        )
+    }
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
         <View /* Profile name and tagline*/
@@ -13,27 +29,20 @@ export default function HomeScreen() {
             Always Online !
           </Text>
         </View>
-        <View /* Followers and Following */ style={{ 
-            flexDirection: "row", 
-            width: '95%', 
-            backgroundColor: '#f6f7f9', 
-            justifyContent: 'space-evenly', 
-            height: 50, 
+        <View
+          /* Followers and Following */ style={{
+            flexDirection: "row",
+            width: "95%",
+            backgroundColor: "#f6f7f9",
+            justifyContent: "space-evenly",
+            height: 50,
             borderRadius: 5,
-            // marginBottom: 5
-        }}>
-          <View /* Followers */ style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 22, fontWeight: 400, color: "#242424" }}>
-              {"600 "}
-            </Text>
-            <Text style={{ fontSize: 22, fontWeight: 400, color: '#bdbdbd' }}>Followers</Text>
-          </View>
-          <View /* Following */ style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 22, fontWeight: 400, color: "#242424" }}>
-              {"400 "}
-            </Text>
-            <Text style={{ fontSize: 22, fontWeight: 400, color: '#bdbdbd' }}>Following</Text>
-          </View>
+            marginBottom: 10,
+          }}
+        >
+          <FolFriendBlock text1={`400 `} text2={`followers `} />
+          <FolFriendBlock text1={'604 '} text2={`following `} />
+          
         </View>
       </View>
     );
