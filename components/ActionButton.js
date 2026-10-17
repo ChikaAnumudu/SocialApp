@@ -1,4 +1,4 @@
-import { useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View, Image } from "react-native";
 
 export default function ActionButton() {
     const screenWidth = useWindowDimensions().width;
@@ -17,5 +17,9 @@ const styles = StyleSheet.create({
         heigth : 80,
         position: "absolute",
         bottom: 10,
+        backgroundColor: 'white',
+        borderWidth: 5,
+        borderRadius: 50,
+        borderColor: 'white'
     }
 })

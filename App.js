@@ -4,11 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import BottonTabs from './components/BottonTabs';
 import ActionButton from './components/ActionButton';
+import Header from './components/Header';
 
 
 export default function App() {
   return (
     <NavigationContainer>
+      <Header />
       <BottonTabs />
       <ActionButton />
       <StatusBar style="auto" />
