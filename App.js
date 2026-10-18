@@ -5,14 +5,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import BottonTabs from './components/BottonTabs';
 import ActionButton from './components/ActionButton';
 import Header from './components/Header';
+import SocialProvider from './store/SocialProvider';
 
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Header />
-      <BottonTabs />
-      <ActionButton />
+      <SocialProvider>
+        <Header />
+        <BottonTabs />
+        <ActionButton />
+      </SocialProvider>
       <StatusBar style="auto" />
     </NavigationContainer>
   );

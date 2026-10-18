@@ -14,7 +14,13 @@ export default function Header() {
         />
         {/* * Headle and Edit icon * */}
         <View style={{ flexDirection: "row" }}>
-          <View style={{ position: "absolute", top: 60, left: "-10%" }}>
+          <View
+            style={{
+              position: "absolute",
+              top: 60,
+              left: "-17%",
+            }}
+          >
             <Text style={{ color: "white", fontSize: 20 }}>
               @AnumuduClinton
             </Text>
@@ -22,11 +28,11 @@ export default function Header() {
 
           <View style={{ position: "relative", top: 30, right: -130 }}>
             {/* Icon */}
-            <AntDesign 
-                name="edit" 
-                size={24} 
-                color="white" 
-                onPress={() => navigation.navigate('Profile')}
+            <AntDesign
+              name="edit"
+              size={24}
+              color="white"
+              onPress={() => navigation.navigate("Profile")}
             />
           </View>
         </View>

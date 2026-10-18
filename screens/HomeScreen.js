@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { ButtonGroup } from "@rneui/themed";
+import MediaAlbum from "../components/MediaAlbum";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { SocialContext } from "../store/SocialProvider";
 // import { ButtonGroup } from "@rneui/base";
 
 
 export default function HomeScreen() {
     const [ selectedIndex, setSelectedIndex ] = useState(0);
-    const buttonList = ['Photos', 'Videos']
+    const buttonList = ['Photos', 'Videos'];
+    const tabHeigth = useBottomTabBarHeight();
+    console.log('Tab Heigth :', tabHeigth);
+
+    const socialHandle = useContext(SocialContext);
+
+    useEffect(() => {
+        socialHandle.setTabHeight(tabHeigth)
+    },[])
 
     const FolFriendBlock = ({text1, text2}) => {
         return (<View
@@ -48,30 +59,33 @@ export default function HomeScreen() {
           }}
         >
           <FolFriendBlock text1={`400 `} text2={`followers `} />
-          <FolFriendBlock text1={'604 '} text2={`following `} />
-          
+          <FolFriendBlock text1={"604 "} text2={`following `} />
         </View>
-        <ButtonGroup 
-            buttons={buttonList}
-            selectedIndex={selectedIndex}
-            onPress={(value) => {
-                setSelectedIndex(value), 
-                console.log('Action Data For: ', buttonList[value]);
-            }}
-            buttonStyle={{
-                backgroundColor: 'lightgrey',
-                borderRadius: 5,
-            }}
-            selectedButtonStyle={{
-                backgroundColor: '#f6c5',
-            }}
-            innerBorderStyle={{
-                width: 5, color: 'white'
-            }}
-            containerStyle={{ borderWidth: 0 }}
-            textStyle={{ color: 'darkgrey', fontSize: 16 }}
-            selectedTextStyle={{ color: 'black', fontSize: 16 }}
-        /> 
+        <ButtonGroup
+          buttons={buttonList}
+          selectedIndex={selectedIndex}
+          onPress={(value) => {
+            (setSelectedIndex(value),
+              console.log("Action Data For: ", buttonList[value]));
+          }}
+          buttonStyle={{
+            backgroundColor: "lightgrey",
+            borderRadius: 5,
+          }}
+          selectedButtonStyle={{
+            backgroundColor: "#f6c5",
+          }}
+          innerBorderStyle={{
+            width: 5,
+            color: "white",
+          }}
+          containerStyle={{ borderWidth: 0 }}
+          textStyle={{ color: "darkgrey", fontSize: 16 }}
+          selectedTextStyle={{ color: "black", fontSize: 16 }}
+        />
+        <MediaAlbum
+          albumType={buttonList[selectedIndex] === "Photos" ? "photos" : "videos"}
+        />
       </View>
     );
 }
