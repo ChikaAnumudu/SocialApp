@@ -1,19 +1,47 @@
 import { useContext } from "react";
-import { StyleSheet, useWindowDimensions, View, Image } from "react-native";
+import { StyleSheet, useWindowDimensions, View,  } from "react-native";
 import { SocialContext } from "../store/SocialProvider";
+import { Image } from "@rneui/base";
 
-export default function ActionButton() {
+
+export default function ActionButton({currentRoute}) {
     const screenWidth = useWindowDimensions().width;
     const socialHandle = useContext(SocialContext);
-    const bottomTabHeight = socialHandle.getTabHeight()
+    const bottomTabHeight = socialHandle.getTabHeight();
 
-    return (
-        <View style={[styles.actionView, {right: (screenWidth - 80)/2, bottom : bottomTabHeight - 40 }]}>
-            <Image source={require('../assets/Images/action-image.png')} 
-                style={{width: 70, heigth: 70}}
-            />
-        </View>
-    )
+    console.log('The CurrentRoute is : ', currentRoute);
+
+    const insertContextImage = () => {
+        let imageSrc = null;
+
+        switch (currentRoute) {
+          case "Home":
+            imageSrc = require("../assets/Images/action-image.png");
+            break;
+          case "Profile":
+            imageSrc = require("../assets/Images/action-image.png");
+            break;
+
+          default:
+            break;
+        }
+        return (
+            imageSrc !==  null ?
+            <View 
+                style={[styles.actionView, {right: (screenWidth - 80)/2, bottom : bottomTabHeight - 40 }]}>
+                <Image 
+                    source={imageSrc} 
+                    // style={{width: 70, heigth: 70}}
+                    containerStyle={{ width: 70, height: 70 }}
+                    onPress={() => console.log('Context Button Pressed !')}
+                />
+            </View>
+            :
+            null
+        )
+    }
+
+    return <View>{insertContextImage()}</View>;
 }
 
 const styles = StyleSheet.create({

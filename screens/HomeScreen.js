@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext,useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { ButtonGroup } from "@rneui/themed";
 import MediaAlbum from "../components/MediaAlbum";
