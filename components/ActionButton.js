@@ -33,7 +33,7 @@ export default function ActionButton({currentRoute}) {
                     source={imageSrc} 
                     // style={{width: 70, heigth: 70}}
                     containerStyle={{ width: 70, height: 70 }}
-                    onPress={() => console.log('Context Button Pressed !')}
+                    onPress={() => socialHandle.toggleCamera()}
                 />
             </View>
             :

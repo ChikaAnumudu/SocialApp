@@ -4,6 +4,7 @@ import { ButtonGroup } from "@rneui/themed";
 import MediaAlbum from "../components/MediaAlbum";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SocialContext } from "../store/SocialProvider";
+import CameraOverlay from "../components/CameraOverlay";
 // import { ButtonGroup } from "@rneui/base";
 
 
@@ -17,7 +18,13 @@ export default function HomeScreen() {
 
     useEffect(() => {
         socialHandle.setTabHeight(tabHeigth)
-    },[])
+    },[]);
+
+    const showCamera = () => {
+        return(
+            <CameraOverlay />
+        )
+    }
 
     const FolFriendBlock = ({text1, text2}) => {
         return (<View
@@ -86,6 +93,7 @@ export default function HomeScreen() {
         <MediaAlbum
           albumType={buttonList[selectedIndex] === "Photos" ? "photos" : "videos"}
         />
+        { socialHandle.getCameraState() && showCamera()}
       </View>
     );
 }
