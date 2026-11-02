@@ -1,10 +1,12 @@
-import { Overlay } from "@rneui/base";
-import { View, Text, Image } from "react-native";
+import { color, Overlay } from "@rneui/base";
+import { View, Text, Image, useWindowDimensions, Button } from "react-native";
 import { useContext, useState } from "react";
 import { SocialContext } from "../store/SocialProvider";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Icon } from "@rneui/themed";
-import { useWindowDimensions } from "react-native";
+// import { useWindowDimensions } from "react-native";
+// import * as ImagePicker from 'expo-camera';
+import * as ImagePicker from "expo-image-picker";
 
 export default function CameraOverlay() {
     const [visible, setVisiable] = useState(true);
@@ -12,6 +14,52 @@ export default function CameraOverlay() {
     const { width, height } = useWindowDimensions();
     const imageWidth = width - 40;
     const imageHeigth = height / 2;
+    const [ image, setImage ] = useState(null);
+
+    const pickImage = async () => {
+        
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes : ['images'],
+            allowsEditing : false,
+            aspect : [4,3],
+            quality : 0.5
+        })
+
+        console.log(result);
+
+        if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        }
+    };
+
+    const displayImage = () => {
+        return (
+            <Image 
+                source={{uri : image}}
+                style={{
+                    width: imageWidth,
+                    height: imageHeigth,
+                    borderRadius: 10,
+                }} 
+            />
+        )
+    };
+
+    const insertSaveButton = () => {
+        if(!image) return null;
+        return (
+            <Button 
+                title="Save Image"
+                titleStyle={{color : 'black'}}
+                buttonStyle={{backgroundColor: '#f5cb5c', borderRadius: 5}}
+                onPress={() => {
+                    console.log('Add image to album')
+                    socialHandle.toggleCamera();
+                }}
+            />
+        )
+    }
+
     return (
       <Overlay
         isVisible={visible}
@@ -47,7 +95,7 @@ export default function CameraOverlay() {
             borderColor: "ligthgrey",
           }}
         >
-          {/* Image goes Here ! */}
+          {displayImage()}
         </View>
         <View
           style={{
@@ -63,7 +111,7 @@ export default function CameraOverlay() {
             name="view-gallery-outline"
             color="black"
             size={23}
-            onPress={() => console.log("Time to select the image")}
+            onPress={pickImage}
             containerStyle={{
               alignItems: "center",
               justifyContent: "center",
@@ -81,6 +129,8 @@ export default function CameraOverlay() {
             // onPress={() => console.log(" It is now time to take the picture !")}
           />
         </View>
+
+        {insertSaveButton()}
       </Overlay>
     );
 }
