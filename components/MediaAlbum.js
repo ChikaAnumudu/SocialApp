@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { FlatList, Image } from "react-native";
+import { SocialContext } from "../store/SocialProvider";
 
 export default function MediaAlbum({ albumType }) {
   const staticImage = [
@@ -10,17 +12,19 @@ export default function MediaAlbum({ albumType }) {
     { id: 6, uri: require("../assets/Images/pexels-collis-3031397 4.png") },
   ];
 
-  return albumType === "photos" ? 
+  const socialHandle = useContext(SocialContext);
+
+  return albumType === "photos" ? (
     <FlatList
-      data={staticImage}
+      data={socialHandle.getAlbum()}
       renderItem={({ item }) => (
         <Image
-          source={item.uri}
-          style={{ width: 115, heigth: 107, margin: 5, borderRadius: 5 }}
+          source={{ uri: item.uri }}
+          style={{ width: 115, height: 107, margin: 5, borderRadius: 5 }}
         />
       )}
       keyExtractor={(item) => item.id}
       numColumns={3}
     />
-  : null;
+  ) : null;
 }
