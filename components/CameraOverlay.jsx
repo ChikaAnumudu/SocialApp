@@ -37,13 +37,17 @@ export default function CameraOverlay() {
   // }, []);
 
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  const pickImage = async (mode) => {
+    const cameraOptions = {
       mediaTypes: ["images"],
       allowsEditing: false,
       aspect: [4, 3],
       quality: 0.5,
-    });
+    };
+    let result =
+      mode === "upload"
+        ? await ImagePicker.launchImageLibraryAsync(cameraOptions)
+        : await ImagePicker.launchCameraAsync({...cameraOptions, cameraType : ImagePicker.CameraType.back});
 
     console.log(result);
 
@@ -52,19 +56,19 @@ export default function CameraOverlay() {
     }
   };
 
-  const takePicture = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ["images"],
-      allowsEditing: false,
-      quality: 0.5,
-      cameraType: ImagePicker.CameraType.back,
-    });
-    console.log(result);
+  // const takePicture = async () => {
+  //   let result = await ImagePicker.launchCameraAsync({
+  //     mediaTypes: ["images"],
+  //     allowsEditing: false,
+  //     quality: 0.5,
+  //     // cameraType: ImagePicker.CameraType.back,
+  //   });
+  //   console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri);
+  //   }
+  // };
 
   const displayImage = () => {
     return (
@@ -146,7 +150,7 @@ export default function CameraOverlay() {
           name="view-gallery-outline"
           color="black"
           size={23}
-          onPress={pickImage}
+          onPress={() => pickImage('upload')}
           containerStyle={{
             alignItems: "center",
             justifyContent: "center",
@@ -158,7 +162,7 @@ export default function CameraOverlay() {
           }}
         />
 
-        <TouchableOpacity onPress={takePicture}>
+        <TouchableOpacity onPress={() => pickImage('take')}>
           <Image
             source={require("../assets/Images/camera-image.png")}
             style={{ width: 65, height: 65 }}
