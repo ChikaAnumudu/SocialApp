@@ -16,7 +16,7 @@ export default function MediaAlbum({ albumType }) {
 
   return albumType === "photos" ? (
     <FlatList
-      data={socialHandle.getAlbum()}
+      data={socialHandle.getAlbum(albumType)}
       renderItem={({ item }) => (
         <Image
           source={{ uri: item.uri }}

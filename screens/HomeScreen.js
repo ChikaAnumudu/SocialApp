@@ -22,7 +22,9 @@ export default function HomeScreen() {
 
     const showCamera = () => {
         return(
-            <CameraOverlay />
+            <CameraOverlay 
+              assetType = { buttonList[selectedIndex] === 'Photos' ? 'photos' : 'videos'}
+            />
         )
     }
 

@@ -14,28 +14,16 @@ import { Icon } from "@rneui/themed";
 // import * as ImagePicker from 'expo-camera';
 import * as ImagePicker from "expo-image-picker";
 
-export default function CameraOverlay() {
+export default function CameraOverlay({assetType}) {
   const [visible, setVisible] = useState(true);
   const socialHandle = useContext(SocialContext);
   const { width, height } = useWindowDimensions();
   const imageWidth = width - 40;
   const imageHeight = height / 2;
   const [image, setImage] = useState(null);
+  const [ video, setVideoImage ] = useState(null);
 
-  // useEffect(() => {
-  //   const retrieveLostImage = async () => {
-  //     const pendingResult = await ImagePicker.getPendingResultAsync();
-  //     if (
-  //       pendingResult &&
-  //       pendingResult.length > 0 &&
-  //       !pendingResult[0].canceled
-  //     ) {
-  //       setImage(pendingResult[0].assets[0].uri);
-  //     }
-  //   };
-  //   retrieveLostImage();
-  // }, []);
-
+ 
 
   const pickImage = async (mode) => {
     const cameraOptions = {
@@ -56,24 +44,24 @@ export default function CameraOverlay() {
     }
   };
 
-  // const takePicture = async () => {
-  //   let result = await ImagePicker.launchCameraAsync({
-  //     mediaTypes: ["images"],
-  //     allowsEditing: false,
-  //     quality: 0.5,
-  //     // cameraType: ImagePicker.CameraType.back,
-  //   });
-  //   console.log(result);
+  const pickVideos = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["videos"],
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+    console.log(result);
 
-  //   if (!result.canceled) {
-  //     setImage(result.assets[0].uri);
-  //   }
-  // };
+    if (!result.canceled) {
+      setVideoImage(result.assets[0].uri);
+    }
+  };
 
   const displayImage = () => {
     return (
       <Image
-        source={{ uri: image }}
+        source={{ uri: assetType === 'photos' ? image : video }}
         style={{
           width: imageWidth,
           height: imageHeight,
@@ -84,15 +72,16 @@ export default function CameraOverlay() {
   };
 
   const insertSaveButton = () => {
-    if (!image) return null;
+    if (!image && !video) return null;
     return (
       <Button
-        title="Save Image"
+        title={assetType === "photos" ? "Save Image" : "Save Video" }
         titleStyle={{ color: "black" }}
         buttonStyle={{ backgroundColor: "#f5cb5c", borderRadius: 5 }}
         onPress={() => {
-          socialHandle.addPhoto(image);
-          console.log("Add Image to album");
+          assetType === "photos"
+            ? socialHandle.addPhoto(image)
+            : socialHandle.addVideo(video);
           socialHandle.toggleCamera();
         }}
       />
@@ -150,7 +139,7 @@ export default function CameraOverlay() {
           name="view-gallery-outline"
           color="black"
           size={23}
-          onPress={() => pickImage('upload')}
+          onPress={() => assetType === 'photos' ? pickImage('upload') : pickVideos()}
           containerStyle={{
             alignItems: "center",
             justifyContent: "center",

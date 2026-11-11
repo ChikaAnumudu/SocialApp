@@ -6,13 +6,15 @@ export const SocialContext = createContext({
   toggleCamera: () => {},
   getCameraState: () => {},
   addPhoto : () => {},
-  getAlbum : () => {}
+  getAlbum : () => {},
+  addVideo : () => {}
 });
 
 export default function SocialProvider({children}){
     const [ bottomTabHeight, setBottomTabHeight ] = useState(0)
     const [ isCameraVisible, setCameraVisible ] = useState(false);
     const [ photoAlbum, setPhotoAlbum ] = useState([]);
+    const [videoAblum, setVideoAblum] = useState([]);
 
     const toggleCamera = () => {
         setCameraVisible(!isCameraVisible);
@@ -41,8 +43,20 @@ export default function SocialProvider({children}){
         ]
         setPhotoAlbum(newAlbum);
     };
-    const getAlbum = () => {
-        return photoAlbum;
+    const getAlbum = (type) => {
+        return type === 'photos' ? photoAlbum : videoAblum;
+    }
+
+    const  addVideo = (uri) => {
+        const id = new Date().valueOf();
+        const newAlbum = [
+            {
+                id : id,
+                uri : uri
+            },
+            ...videoAblum
+        ];
+        setVideoAblum(newAlbum);
     }
 
     const socialHandle = {
@@ -52,6 +66,7 @@ export default function SocialProvider({children}){
       getCameraState: getCameraState,
       addPhoto: addPhoto,
       getAlbum: getAlbum,
+      addVideo: addVideo,
     };
 
     return (
