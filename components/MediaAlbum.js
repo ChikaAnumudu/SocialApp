@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import { FlatList, Image } from "react-native";
+import { FlatList, Image, View, Text } from "react-native";
 import { SocialContext } from "../store/SocialProvider";
 
 export default function MediaAlbum({ albumType }) {
+
   const staticImage = [
     { id: 1, uri: require("../assets/Images/pexels-collis-3031397 2.png") },
     { id: 2, uri: require("../assets/Images/pexels-collis-3031397 3.png") },
@@ -14,17 +15,57 @@ export default function MediaAlbum({ albumType }) {
 
   const socialHandle = useContext(SocialContext);
 
-  return albumType === "photos" ? (
-    <FlatList
-      data={socialHandle.getAlbum(albumType)}
-      renderItem={({ item }) => (
+  const RenderImage = ({ item }) => {
+    return (
+      <Image
+
+        source={typeof item.uri === "number" ? item.uri : { uri: item.uri }}
+        style={{ width: 115, height: 107, margin: 5, borderRadius: 5 }}
+      />
+    );
+  };
+
+  const RenderVideoImage = ({ item }) => {
+ 
+    return (
+      <View>
         <Image
-          source={{ uri: item.uri }}
+          source={typeof item.uri === "number" ? item.uri : { uri: item.uri }}
           style={{ width: 115, height: 107, margin: 5, borderRadius: 5 }}
         />
-      )}
-      keyExtractor={(item) => item.id}
+        <View
+          style={{
+            backgroundColor: "black",
+            position: "absolute",
+            bottom: "10%",
+            left: "10%",
+            width: 50,
+            alignItems: "center", 
+            borderRadius: 3,
+          }}
+        >
+          <Text style={{ color: "white", fontWeight: "800", fontSize: 10 }}>
+            {item.duration}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  
+  return (
+    <FlatList
+      data={socialHandle.getAlbum(albumType)}
+      renderItem={({ item }) =>
+        albumType === "photos" ? (
+          <RenderImage item={item} />
+        ) : (
+          <RenderVideoImage item={item} />
+        )
+      }
+
+      keyExtractor={(item) => item.id.toString()}
       numColumns={3}
     />
-  ) : null;
+  );
 }

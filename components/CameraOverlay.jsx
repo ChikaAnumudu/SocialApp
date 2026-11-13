@@ -11,7 +11,6 @@ import { useContext, useEffect, useState } from "react";
 import { SocialContext } from "../store/SocialProvider";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Icon } from "@rneui/themed";
-// import * as ImagePicker from 'expo-camera';
 import * as ImagePicker from "expo-image-picker";
 
 export default function CameraOverlay({assetType}) {
@@ -54,20 +53,38 @@ export default function CameraOverlay({assetType}) {
     console.log(result);
 
     if (!result.canceled) {
-      setVideoImage(result.assets[0].uri);
+      const duration = (result.assets[0].duration / 1000).toFixed(2)
+      setVideoImage({uri : result.assets[0].uri, duration : `${duration}s`});
     }
   };
 
   const displayImage = () => {
     return (
-      <Image
-        source={{ uri: assetType === 'photos' ? image : video }}
-        style={{
-          width: imageWidth,
-          height: imageHeight,
-          borderRadius: 10,
-        }}
-      />
+      <>
+        <Image
+          source={{ uri: assetType === "photos" ? image : video?.uri }}
+          style={{
+            width: imageWidth,
+            height: imageHeight,
+            borderRadius: 10,
+          }}
+        />
+        {assetType === "videos" && video ? (
+          <View
+            style={{
+              backgroundColor: "black",
+              position: "relative",
+              bottom: "30%",
+              left: "20%",
+              width: 50,
+            }}
+          >
+            <Text style={{ color: "white", fontWeight: "800" }}>
+              {video?.duration}
+            </Text>
+          </View>
+        ) : null}
+      </>
     );
   };
 

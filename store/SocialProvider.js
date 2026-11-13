@@ -47,12 +47,13 @@ export default function SocialProvider({children}){
         return type === 'photos' ? photoAlbum : videoAblum;
     }
 
-    const  addVideo = (uri) => {
+    const  addVideo = (asset) => {
         const id = new Date().valueOf();
         const newAlbum = [
             {
                 id : id,
-                uri : uri
+                uri : asset.uri,
+                duration : asset.duration
             },
             ...videoAblum
         ];
