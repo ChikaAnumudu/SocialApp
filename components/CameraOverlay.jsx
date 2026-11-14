@@ -12,6 +12,7 @@ import { SocialContext } from "../store/SocialProvider";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Icon } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function CameraOverlay({assetType}) {
   const [visible, setVisible] = useState(true);
@@ -43,6 +44,18 @@ export default function CameraOverlay({assetType}) {
     }
   };
 
+  const generateThumb = async (videoUri) => {
+    try {
+      const { uri } = VideoThumbnails.getThumbnailAsync(videoUri, {
+        time: 1,
+      });
+      return uri;
+    } catch (error) {
+      console.warn(error);
+    }
+
+  }
+
   const pickVideos = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["videos"],
@@ -53,8 +66,9 @@ export default function CameraOverlay({assetType}) {
     console.log(result);
 
     if (!result.canceled) {
-      const duration = (result.assets[0].duration / 1000).toFixed(2)
-      setVideoImage({uri : result.assets[0].uri, duration : `${duration}s`});
+      const duration = (result.assets[0].duration / 1000).toFixed(2);
+      const videoThumb = await generateThumb(result.assets[0].uri);
+      setVideoImage({ uri: videoThumb, duration: `${duration}s` });
     }
   };
 
